@@ -1,0 +1,1 @@
+# thaisanscript.php 
