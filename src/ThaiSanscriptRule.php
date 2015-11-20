@@ -6,6 +6,59 @@ use ThaiSanskrit\ThaiSanscript;
 
 class ThaiSanscriptRule {
 
+    public static function transliterationToArray($romanize, $devanagari = array()) {
+        mb_internal_encoding("UTF-8");
+        $returnArray = array();
+        $listRomanize = preg_split('/\r\n|\r|\n/', $romanize);
+//        $listDevanagari = preg_split('/\r\n|\r|\n/', $devanagari);
+        foreach ($listRomanize as $key => $line) {
+
+            $line = mb_strtolower($line, "UTF-8");
+            $syllableThai = explode(" ", $line);
+            $syllableRomanize = explode(" ", $line);
+
+            for ($i = 0; $i < count($syllableThai); $i++) {
+                $syllableThai[$i] = ThaiSanscriptRule::convert($syllableThai[$i]);
+            }
+            $returnArray['thai'][$key] = $syllableThai;
+            $returnArray['romanize'][$key] = $syllableRomanize;
+        }
+
+        return $returnArray;
+    }
+
+    public static function transliteration($txt) {
+        mb_internal_encoding("UTF-8");
+//        $listLine = explode('\r', $txt);
+        $listLine = preg_split('/\r\n|\r|\n/', $txt);
+        $listLineThai = array();
+        print_r($listLine);
+        foreach ($listLine as $line) {
+
+            $line = mb_strtolower($line, "UTF-8");
+            $syllableThai = explode(" ", $line);
+            $syllableRoman = explode(" ", $line);
+
+            $builderThai = "";
+            $builderRoman = "";
+            for ($i = 0; $i < count($syllableThai); $i++) {
+                $syllableThai[$i] = ThaiSanscriptRule::convert($syllableThai[$i]);
+                $builderThai .= $syllableThai[$i];
+                $builderThai .= " ";
+                $builderRoman .= $syllableRoman[$i];
+                $builderRoman .= " ";
+            }
+
+            $listLineThai[] = $builderThai . "\n";
+            $listLineThai[] = $builderRoman . "\n";
+//            listLineThai.add(builderRoman.toString());
+//            listLineThai.add("\n");
+        }
+
+        return ThaiSanscriptRule::convertListTostring($listLineThai);
+//        echo ThaiSanscriptRule::convertListTostring($listLine);
+    }
+
     public function convertTrackMode($romanize) {
         return convert($romanize, true);
     }
@@ -24,20 +77,19 @@ class ThaiSanscriptRule {
 
         $romanize = ThaiSanscriptRule::convertRomanizeSingleVowel($romanize);
         ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
-//
-//        romanize = convertThaiVowelInFist(romanize);
-//        printTrackMode(romanize, isTracking);
-//
+
+        $romanize = ThaiSanscriptRule::convertThaiVowelInFist($romanize);
+        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+
         $thaiChar = $romanize;
-//       
-//        thaiChar = convertThaiVisarga(thaiChar);
-//        printTrackMode(thaiChar, isTracking);
-//       
-//        thaiChar = convertThaiVowelPrefix(thaiChar);
-//        printTrackMode(thaiChar, isTracking);
-//
+
+        $thaiChar = ThaiSanscriptRule::convertThaiVisarga($thaiChar);
+        ThaiSanscriptRule::printTrackMode($thaiChar, $isTracking);
+
+        $thaiChar = ThaiSanscriptRule::convertThaiVowelPrefix($thaiChar);
+        ThaiSanscriptRule::printTrackMode($thaiChar, $isTracking);
+
         return $thaiChar;
-        
     }
 
     public static function printTrackMode($romanize, $isTracking) {
@@ -66,78 +118,72 @@ class ThaiSanscriptRule {
         return ThaiSanscriptRule::Mapper($mapping, $romanize);
     }
 
-//
-//    public String convertThaiVowelInFist(String thaiChar) {
-//        Map<String, String> mapping = MappingCharacter.mappingThaiVowelInFist();
-//        if (thaiChar.length() > 0) {
-//            for (Map.Entry<String, String> entrySet : mapping.entrySet()) {
-//                String key = entrySet.getKey();
-//                String value = entrySet.getValue();
-//                //char[] fist = romanize.toCharArray();
-//                if (thaiChar.charAt(0) == key.charAt(0)) {
-//                    thaiChar = thaiChar.substring(1);
-//                    thaiChar = value + thaiChar;
-//
-//                }
-//
-//                List<String> charList = charList(thaiChar);
-//
-//                for (int i = 0; i < charList.size(); i++) {
-//                    if (i > 0) {
-//                        boolean check1 = !isThaiConsonant(charList.get(i - 1));
-//                        boolean check2 = charList.get(i).equals(key);
-//                        boolean check3 = !charList.get(i).equals("เ") && !charList.get(i).equals("า") ;
-//                        if (check1 && check2 && check3) {
-//                            charList.set(i, value);
-//                        }
-//                    }
-//
-//                }
-//
-//                thaiChar = convertListTostring(charList);
-//            }
-//        }
-//
-//        return thaiChar;
-//    }
-//
-//    public String convertThaiVisarga(String thaiChar) {
-//        thaiChar = " " + thaiChar + "  ";
-//        List<String> charList = charList(thaiChar);
-//
-//        for (int i = 0; i < charList.size(); i++) {
-//            boolean check = charList.get(i).equals("ะ");
-//
-//            if (check) {
-//
-//                String beforeA = charList.get(i - 1);
-//                String currentA = charList.get(i);
-//                String afterA1 = charList.get(i + 1);
-//                String afterA2 = charList.get(i + 2);
-//
-//                if (beforeA.equals(" ") && charList.get(i).equals("ะ")) {
-//                    charList.set(i, "อั");
-//                }
-//
-//                if ((isThaiConsonant(afterA1) && isThaiConsonant(afterA2)) && charList.get(i).equals("ะ") && !afterA2.equals("ร") ) {
-//                    charList.set(i, "ั");
-//                }
-//
-//                if ((isThaiConsonant(afterA1) && !afterA1.equals(" ") && afterA2.equals(" ")) && charList.get(i).equals("ะ")) {
-//                    charList.set(i, "ั");
-//                }
-//
-//                if (isThaiConsonant(afterA1) && !isThaiConsonant(afterA2) && !isThaiVowel(afterA2) && !afterA2.equals("ฺ")) {
-//                    charList.set(i, "ั");
-//                }
-//                
-//             
-//
-//            }
-//        }
-//        return convertListTostring(charList).trim();
-//    }
-//
+    public static function convertThaiVowelInFist($thaiChar) {
+        $mapping = ThaiSanscript::$thaiVowelInFist;
+        $thaiCharArray = ThaiSanscriptRule::charList($thaiChar);
+
+        if (count($thaiCharArray) > 0) {
+            $i = 0;
+            foreach ($mapping as $key => $value) {
+                if ($thaiCharArray[0] === $key) {
+                    mb_internal_encoding("UTF-8");
+                    $thaiChar = mb_substr($thaiChar, 1);
+                    $thaiChar = $value . $thaiChar;
+                }
+                $charList = ThaiSanscriptRule::charList($thaiChar);
+                for ($index = 0; $index < count($charList); $index++) {
+                    if ($index > 0) {
+                        $check1 = !ThaiSanscriptRule::isThaiConsonant($charList[$index - 1]);
+                        $check2 = $charList[$index] === $key;
+                        $check3 = $charList[$index] != "เ" && $charList[$index] != "า";
+
+                        if ($check1 && $check2 && $check3) {
+                            $charList[$index] = $value;
+                        }
+                    }
+                }
+                $thaiChar = ThaiSanscriptRule::convertListTostring($charList);
+            }
+        }
+        return $thaiChar;
+    }
+
+    public static function convertThaiVisarga($thaiChar) {
+        $thaiChar = " " . $thaiChar . "  "; // before space 1 after space 2
+        $charList = ThaiSanscriptRule::charList($thaiChar);
+
+        for ($i = 0; $i < count($charList); $i++) {
+            if ($charList[$i] === "ะ") {
+                $before = $charList[$i - 1];
+
+                $after1 = $charList[$i + 1];
+                $after2 = $charList[$i + 2];
+
+
+                if ($before == " " && $charList[$i] == "ะ") {
+                    // "ะนกะ" -> "อันกะ";
+                    $charList[$i] = "อั";
+                }
+
+                if (($charList[$i] === "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && ThaiSanscriptRule::isThaiConsonant($after2)) && $after2 != "ร") {
+                    //'ะกธ' ร becuase 
+                    $charList[$i] = "ั";
+                }
+
+                if ($charList[$i] == "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && $after1 != " " && $after2 == " ") {
+                    // ร'ะก  ' -> 'รัก  '
+                    $charList[$i] = "ั";
+                }
+                if ($charList[$i] == "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && !ThaiSanscriptRule::isThaiCharacter($after2) && $after2 != ("์")) {
+                    // เว้น namaḥ  'นะมะห์'  trayaḥ  'ตระยะห์' ไม่ให้เป็น นะมัห
+                    $charList[$i] = "ั";
+                }
+            }
+        }
+//        print_r($charList);
+        return trim(ThaiSanscriptRule::convertListTostring($charList));
+    }
+
     public static function convertThaiVowelPrefix($thaiChar) {
 
         $charList = ThaiSanscriptRule::charList($thaiChar);
@@ -184,6 +230,10 @@ class ThaiSanscriptRule {
 
         $mapping = ThaiSanscript::mappingIsThaiConsonant();
         return ThaiSanscriptRule::isCharacter($mapping, $strChar);
+    }
+
+    public static function isThaiCharacter($strChar) {
+        return ThaiSanscriptRule::isThaiConsonant($strChar) || ThaiSanscriptRule::isThaiVowel($strChar);
     }
 
     public static function isCharacter($mapping, $strChar) {

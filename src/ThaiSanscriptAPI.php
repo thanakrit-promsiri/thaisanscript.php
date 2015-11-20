@@ -7,11 +7,14 @@ class ThaiSanscriptAPI {
     public function __construct() {       
     }
     
-    public function convert($romanize) {
-        echo  ThaiSanscriptRule::convert($romanize, FALSE);
+    public function transliteration($romanize) {
+        return  ThaiSanscriptRule::transliteration($romanize);
     }
-    public function convertTracking($romanize) {
-        echo ThaiSanscriptRule::convert($romanize, TRUE);
+    public function transliterationTracking($romanize) {
+        return ThaiSanscriptRule::convert($romanize, TRUE);
+    }
+     public function transliterationToArray($romanize) {
+        return  ThaiSanscriptRule::transliterationToArray($romanize);
     }
 
 }
