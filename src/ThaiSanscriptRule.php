@@ -10,7 +10,7 @@ class ThaiSanscriptRule {
         mb_internal_encoding("UTF-8");
         $returnArray = array();
         $listRomanize = preg_split('/\r\n|\r|\n/', $romanize);
-//        $listDevanagari = preg_split('/\r\n|\r|\n/', $devanagari);
+        
         foreach ($listRomanize as $key => $line) {
 
             $line = mb_strtolower($line, "UTF-8");
@@ -22,6 +22,11 @@ class ThaiSanscriptRule {
             }
             $returnArray['thai'][$key] = $syllableThai;
             $returnArray['romanize'][$key] = $syllableRomanize;
+        }
+        
+        $listDevanagari = preg_split('/\r\n|\r|\n/', $devanagari);
+        foreach ($listDevanagari as $key => $line) {
+            
         }
 
         return $returnArray;
