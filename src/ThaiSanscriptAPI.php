@@ -13,8 +13,8 @@ class ThaiSanscriptAPI {
     public function transliterationTracking($romanize) {
         return ThaiSanscriptRule::convert($romanize, TRUE);
     }
-     public function transliterationToArray($romanize) {
-        return  ThaiSanscriptRule::transliterationToArray($romanize);
+     public function transliterationToArray($romanize,$devanagari) {
+        return  ThaiSanscriptRule::transliterationToArray($romanize,$devanagari);
     }
 
 }

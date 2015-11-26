@@ -50,17 +50,50 @@ class spacialCase extends PHPUnit_Framework_TestCase {
         $this->spacialCase("daurvvalyamanāviṣkṛtvā", "เทารววัลยะมะนาวิษกฤตวา");
     }
 
+    public function testCase11() {
+        $this->spacialCase("maitreya", "ไมเตรยะ");
+    }
+
     public function testCase12() {
-        $this->spacialCase("maitreya", "ไมเตรยะ");
+        $this->spacialCase("vajracchedikā ", "วัชรัจเฉทิกา");
     }
-     public function testCase11() {
-        $this->spacialCase("maitreya", "ไมเตรยะ");
+
+    public function testCase13() {
+        $this->spacialCase("sarva ", "สรรวะ");
+        $this->spacialCase("dharma ", "ธรรมะ");
+        $this->spacialCase("punar ", "ปุนรร");
     }
+
+    public function testCase14() {
+        $this->spacialCase("parivarjjayitvā ", "ปะริวรรชชะยิตวา");
+    }
+
+    public function testCase15() {
+        $this->spacialCase("lokottaravāda ", "โลโกตตะระวาทะ");
+    }
+
+    public function testCase16() {
+        $this->spacialCase("brahma ", "พรหมะ");
+    }
+
+    public function testCase17() {
+        $this->spacialCase("sabrahmacāriṇaśca ", "สะพรหมะจาริณัศจะ");
+    }
+
+    public function testCase18() {
+        $this->spacialCase("sarvvatra ", "สรรววะตระ");
+    }
+    
+    public function testCase20() {
+        $this->spacialCase("otīṇṇā ", "โอตีณณา");
+    }
+    
+    
 
     public function spacialCase($src, $asrt) {
         $thaiSanscriptAPI = new ThaiSanscriptAPI();
         $src = $thaiSanscriptAPI->transliterationTracking($src);
-        echo " '" . $asrt . "' :  '" . $src . "' \n";
+        echo " ['ASRT :" . $asrt . "' :  '" . $src . "'] \n";
         $this->assertEquals($asrt, $src);
     }
 
