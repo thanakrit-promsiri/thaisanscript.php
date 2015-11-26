@@ -83,17 +83,57 @@ class spacialCase extends PHPUnit_Framework_TestCase {
     public function testCase18() {
         $this->spacialCase("sarvvatra ", "สรรววะตระ");
     }
-    
+
     public function testCase20() {
         $this->spacialCase("otīṇṇā ", "โอตีณณา");
     }
-    
+
+//saṃkara
+//saṃcara
+//saṃṭhāna
+//saṃdhāna
+//saṃbhāra
+//saṃkhāra
+//saṃjāti
+//saṃṭhiti
+//saṃnipāta
+//saṃbandha
+//saṃyog
+//saṃvāsa
+//saṃsāra
+//saṃvara
+//saṃharaṇa
+    public function testCaseAnusavara() {
+        $this->spacialCase("saṃkara", "สังกะระ");
+        $this->spacialCase("saṃcara", "สัญจะระ");
+        $this->spacialCase("saṃṭhāna", "สัณฐานะ");
+        $this->spacialCase("saṃdhāna", "สันธานะ");
+        $this->spacialCase("saṃbhāra", "สัมภาระ");
+        $this->spacialCase("saṃkhāra", "สังขาระ");
+        $this->spacialCase("saṃjāti", "สัญชาติ");
+        $this->spacialCase("saṃṭhiti", "สัณฐิติ");
+        $this->spacialCase("saṃnipāta", "สันนิปาตะ");
+        $this->spacialCase("saṃbandha", "สัมพันธะ");
+        $this->spacialCase("saṃyog", "สัมโยค");
+        $this->spacialCase("saṃvāsa", "สัมวาสะ");
+        $this->spacialCase("saṃsāra", "สัมสาระ");
+        $this->spacialCase("saṃvara", "สัมวะระ");
+        $this->spacialCase("saṃharaṇa", "สัมหะระณะ");
+    }
+     public function testCaseVyVisaga() {
+         //
+        $this->spacialCase("vyākaraṇa", "วยากะระณะ");
+        $this->spacialCase("sthātavyaṃ", "สถาตะวยัม"); // สถาตัวยัม
+        $this->spacialCase("pratipattavyaṃ", "ประติปัตตะวยัม"); // ประติปัตตัวยัม
+        $this->spacialCase("pragrahītavyam", "ประคระหีตะวยัม"); // ประคระหีตัวยัม
+        
+    }
     
 
     public function spacialCase($src, $asrt) {
         $thaiSanscriptAPI = new ThaiSanscriptAPI();
         $src = $thaiSanscriptAPI->transliterationTracking($src);
-        echo " ['ASRT :" . $asrt . "' :  '" . $src . "'] \n";
+        echo " ['ASRT :" . $asrt . "' : '" . $src . "'] \n";
         $this->assertEquals($asrt, $src);
     }
 

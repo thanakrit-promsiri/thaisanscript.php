@@ -27,7 +27,8 @@ namespace ThaiSanskrit;
 class ThaiSanscript {
 
 // Transliteration process option defaults.
-
+    public static $chandrabindu = "ँ";
+    public static $anusvara = "ํ";
     public static $thaiVowelInFist = array(
         "ะ" => "อะ",
         "า" => "อา",
@@ -82,8 +83,8 @@ class ThaiSanscript {
         "ṣ" => "ษ",
         "s" => "ส",
         "h" => "ห",
-        "ṁ" => "ม",
-        "ṃ" => "ม",
+        "ṁ" => "ँ",
+        "ṃ" => "ํ",
         "ḥ" => "ห์",
         "'" => "'"
     );
@@ -136,6 +137,70 @@ class ThaiSanscript {
             }
         }
         return $revert;
+    }
+
+    public static function getAnusvara($nextConsonant = "") {
+        $return = "ม";
+        //kaṇṭhya(Guttural)
+        //ก (กะ): k = ก (กะ) kh = ข (ขะ) g = ค (คะ) gh = ฆ (ฆะ) ṅ = ง (งะ)
+        $guttural_return = "ง";
+        $guttural = array(
+            "ก" => $guttural_return,
+            "ข" => $guttural_return,
+            "ค" => $guttural_return,
+            "ฆ" => $guttural_return,
+            "ง" => $guttural_return,
+        );
+        //tālavya(Palatal)
+        //จ (จะ): c = จ (จะ) ch = ฉ (ฉะ) j = ช (ชะ) jh = ฌ (ฌะ) ñ = ญ (ญะ)
+        $palatal_return = "ญ";
+        $palatal = array(
+            "จ" => $palatal_return,
+            "ฉ" => $palatal_return,
+            "ช" => $palatal_return,
+            "ฌ" => $palatal_return,
+            "ญ" => $palatal_return,
+        );
+
+        //mūrdhanya(Retroflex)
+        //ฎ (ฎะ): ṭ = ฏ (ฏะ) ṭh = ฐ (ฐะ) ḍ = ฑ (ฑะ) ḍh = ฒ (ฒะ) ṇ = ณ (ณะ)
+        $retroflex_return = "ณ";
+        $retroflex = array(
+            "ฏ" => $retroflex_return,
+            "ฐ" => $retroflex_return,
+            "ฑ" => $retroflex_return,
+            "ฒ" => $retroflex_return,
+            "ณ" => $retroflex_return,
+        );
+        //dantya(Dental)
+        //ต (ตะ): t = ต (ตะ) th = ถ (ถะ) d = ท (ทะ) dh = ธ (ธะ) n = น (นะ)
+        $dental_return = "น";
+        $dental = array(
+            "ต" => $dental_return,
+            "ถ" => $dental_return,
+            "ท" => $dental_return,
+            "ธ" => $dental_return,
+            "น" => $dental_return,
+        );
+        //oṣṭhya(Labial)
+        //ป (ปะ): p = ป (ปะ) ph = ผ (ผะ) b = พ (พะ) bh = ภ (ภะ) m = ม (มะ)
+        $labial_return = "ม";
+        $labial = array(
+            "ป" => $labial_return,
+            "ผ" => $labial_return,
+            "พ" => $labial_return,
+            "ภ" => $labial_return,
+            "ม" => $labial_return,
+        );
+        $merge = array_merge($guttural, $palatal, $retroflex, $dental, $labial);
+
+        if (isset($merge[$nextConsonant])) {
+            $return = $merge[$nextConsonant];
+        }
+        //(เศษวรรค): y = ย (ยะ) r = ร (ระ) l = ล (ละ) v = ว (วะ) ś = ศ (ศะ)
+        //ṣ = ษ (ษะ) s = ส (สะ) h = ห (หะ)
+        // return ม
+        return $return;
     }
 
 }

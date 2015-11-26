@@ -84,6 +84,9 @@ class ThaiSanscriptRule {
         $romanize = ThaiSanscriptRule::convertRomanizeSingleVowel($romanize);
         ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
 
+        $romanize = ThaiSanscriptRule::convertAnusvaraAndChandrabindu($romanize);
+        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+
         $romanize = ThaiSanscriptRule::convertThaiVowelInFist($romanize);
         ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
 
@@ -122,6 +125,19 @@ class ThaiSanscriptRule {
     public static function convertRomanizeMixVowel($romanize) {
         $mapping = ThaiSanscript::$mixVowel;
         return ThaiSanscriptRule::Mapper($mapping, $romanize);
+    }
+
+    public static function convertAnusvaraAndChandrabindu($thaiChar) {
+        $thaiChar = $thaiChar . " "; // after space 1  reserve  for condition
+        $charList = ThaiSanscriptRule::charList($thaiChar);
+
+        for ($i = 0; $i < count($charList); $i++) {
+            if ($charList[$i] === ThaiSanscript::$anusvara ||
+                    $charList[$i] === ThaiSanscript::$chandrabindu) {
+                $charList[$i] = ThaiSanscript::getAnusvara($charList[$i + 1]);
+            }
+        }
+        return str_replace(" ", "", ThaiSanscriptRule::convertListTostring($charList));
     }
 
     public static function convertThaiVowelInFist($thaiChar) {
@@ -178,21 +194,23 @@ class ThaiSanscriptRule {
                     // lokottaravāda sarva
                     $charList[$i] = "ร";
                 }
+                if (($charList[$i + 1] != "ว")) {
+                    if (($charList[$i] === "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && ThaiSanscriptRule::isThaiConsonant($after2)) && $after2 != "ร") {
+                        //'ะกธ' ร becuase เว้น  พีชะครามะ CVCRVCV
+                        $charList[$i] = "ั";
+                    }
 
-                if (($charList[$i] === "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && ThaiSanscriptRule::isThaiConsonant($after2)) && $after2 != "ร") {
-                    //'ะกธ' ร becuase เว้น  พีชะครามะ CVCRVCV
-                    $charList[$i] = "ั";
-                }
+                    $charList = ThaiSanscriptRule::visargaConsonantClusters($charList, $i);
 
-                $charList = ThaiSanscriptRule::visargaConsonantClusters($charList, $i);
+                    if ($charList[$i] == "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && $after1 != " " && $after2 == " ") {
+                        // ร'ะก  ' -> 'รัก  '
+                        $charList[$i] = "ั";
+                    }
+                    if ($charList[$i] == "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && !ThaiSanscriptRule::isThaiCharacter($after2) && $after2 != ("์")) {
 
-                if ($charList[$i] == "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && $after1 != " " && $after2 == " ") {
-                    // ร'ะก  ' -> 'รัก  '
-                    $charList[$i] = "ั";
-                }
-                if ($charList[$i] == "ะ" && ThaiSanscriptRule::isThaiConsonant($after1) && !ThaiSanscriptRule::isThaiCharacter($after2) && $after2 != ("์")) {
-                    // เว้น namaḥ  'นะมะห์'  trayaḥ  'ตระยะห์' ไม่ให้เป็น นะมัห
-                    $charList[$i] = "ั";
+                        // เว้น namaḥ  'นะมะห์'  trayaḥ  'ตระยะห์' ไม่ให้เป็น นะมัห
+                        $charList[$i] = "ั";
+                    }
                 }
             }
         }
@@ -212,7 +230,7 @@ class ThaiSanscriptRule {
 //           C A C R V C[V] non visarga
 //           C A C R V[H]C non visarga
 //           0 1 2 3 4 5 6
-        
+
 
         $_0 = $i - 1;
         $_1 = $i;
@@ -245,13 +263,13 @@ class ThaiSanscriptRule {
                         $charList[$i] === "ไ";
                 if ($check && ThaiSanscriptRule::isThaiConsonant($charList[$i - 2]) && $charList[$i - 1] == "ร") {
                     $charList = ThaiSanscriptRule::swapArray($check, $charList, $i);
-                    $charList = ThaiSanscriptRule::swapArray($check, $charList, $i-1);
+                    $charList = ThaiSanscriptRule::swapArray($check, $charList, $i - 1);
                 } else {
                     $charList = ThaiSanscriptRule::swapArray($check, $charList, $i);
                 }
             }
         }
-        
+
         return str_replace(" ", "", ThaiSanscriptRule::convertListTostring($charList));
     }
 
