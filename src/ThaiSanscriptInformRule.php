@@ -2,58 +2,45 @@
 
 namespace ThaiSanskrit;
 
-use ThaiSanskrit\ThaiSanscript;
-use ThaiSanskrit\ThaiVisargaConvert;
+use ThaiSanskrit\Util;
 
 class ThaiSanscriptInformRule {
 
+    function __construct() {
+        
+    }
 
     public function convertTrackMode($romanize) {
-        return convertGeneral($romanize, true);
+        return convert($romanize, true);
     }
 
-    public static function convert($romanize, $isTracking = false) {
+    public function convert($romanize, $isTracking = false) {
 
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+        $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = ThaiSanscriptRule::convertRomanizeMixConsonant($romanize);
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+        $romanize = Util::convertRomanizeMixConsonant($romanize);
+        $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = ThaiSanscriptRule::convertRomanizeMixVowel($romanize);
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+        $romanize = Util::convertRomanizeMixVowel($romanize);
+        $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = ThaiSanscriptRule::convertRomanizeSingleConsonant($romanize);
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+        $romanize = Util::convertRomanizeSingleConsonant($romanize);
+        $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = ThaiSanscriptRule::convertRomanizeSingleVowel($romanize);
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+        $romanize = Util::convertRomanizeSingleVowel($romanize);
+        $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = ThaiSanscriptRule::convertAnusvaraAndChandrabindu($romanize);
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
+//        $romanize = Util::convertThaiVowelPrefix($romanize);
+//        $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = ThaiSanscriptRule::convertThaiVowelInFist($romanize);
-        ThaiSanscriptRule::printTrackMode($romanize, $isTracking);
 
-        $thaiChar = $romanize;
-
-        $thaiChar = ThaiSanscriptRule::convertThaiVisarga($thaiChar);
-        ThaiSanscriptRule::printTrackMode($thaiChar, $isTracking);
-
-        $thaiChar = ThaiSanscriptRule::convertThaiVowelPrefix($thaiChar);
-        ThaiSanscriptRule::printTrackMode($thaiChar, $isTracking);
-
-        $thaiChar = ThaiSanscriptRule::convertThaiAAInFist($thaiChar);
-        ThaiSanscriptRule::printTrackMode($thaiChar, $isTracking);
-
-        return $thaiChar;
+        return $romanize;
     }
 
-    public static function printTrackMode($romanize, $isTracking) {
+    public function printTrackMode($romanize, $isTracking) {
         if ($isTracking) {
             echo ($romanize . " -> ");
         }
     }
-
-   
 
 }

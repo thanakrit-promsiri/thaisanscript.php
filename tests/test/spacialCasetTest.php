@@ -1,8 +1,9 @@
 <?php
 
-include '../src/ThaiSanscriptAPI.php';
+
 
 use ThaiSanskrit\ThaiSanscriptAPI;
+
 
 class spacialCase extends PHPUnit_Framework_TestCase {
 

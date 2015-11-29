@@ -26,15 +26,15 @@ class Util {
 
     /*     * *******************    check part  ************************ */
 
-    public static function isThaiVowel($strChar) {
+    public static function isThaiVowel($strChar, $thaimapper = "") {
 
-        $mapping = ThaiSanscript::mappingIsThaiVowel();
+        $mapping = Util::getThaimapper($thaimapper)->mappingIsThaiVowel();
         return Util::isCharacter($mapping, $strChar);
     }
 
-    public static function isThaiConsonant($strChar) {
+    public static function isThaiConsonant($strChar, $thaimapper = "") {
 
-        $mapping = ThaiSanscript::mappingIsThaiConsonant();
+        $mapping = Util::getThaimapper($thaimapper)->mappingIsThaiConsonant();
         return Util::isCharacter($mapping, $strChar);
     }
 
@@ -63,24 +63,49 @@ class Util {
 
     /*     * *******************    convert ************************ */
 
-    public static function convertRomanizeSingleConsonant($romanize) {
-        $mapping = ThaiSanscript::$singleConsonant;
+    public static function convertRomanizeSingleConsonant($romanize, $thaimapper = "") {
+        $mapping = Util::getThaimapper($thaimapper)->singleConsonant;
         return Util::Mapper($mapping, $romanize);
     }
 
-    public static function convertRomanizeMixConsonant($romanize) {
-        $mapping = ThaiSanscript::$mixConsonant;
+    public static function convertRomanizeMixConsonant($romanize, $thaimapper = "") {
+        $mapping = Util::getThaimapper($thaimapper)->mixConsonant;
         return Util::Mapper($mapping, $romanize);
     }
 
-    public static function convertRomanizeSingleVowel($romanize) {
-        $mapping = ThaiSanscript::$singleVowel;
+    public static function convertRomanizeSingleVowel($romanize, $thaimapper = "") {
+        $mapping = Util::getThaimapper($thaimapper)->singleVowel;
         return Util::Mapper($mapping, $romanize);
     }
 
-    public static function convertRomanizeMixVowel($romanize) {
-        $mapping = ThaiSanscript::$mixVowel;
+    public static function convertRomanizeMixVowel($romanize, $thaimapper = "") {
+        $mapping = Util::getThaimapper($thaimapper)->mixVowel;
         return Util::Mapper($mapping, $romanize);
+    }
+
+    public static function convertThaiVowelPrefix($thaiChar) {
+        $thaiChar = "   " . $thaiChar; // before space 2 after space 6  reserve  for condition
+        $charList = Util::charList($thaiChar);
+        for ($i = 1; $i < count($charList); $i++) {
+
+            $check = $charList[$i] === "เ" ||
+                    $charList[$i] === "โ" ||
+                    $charList[$i] === "ไ";
+            if ($check && Util::isThaiConsonant($charList[$i - 2]) && $charList[$i - 1] == "ร") {
+                $charList = Util::swapArray($check, $charList, $i);
+                $charList = Util::swapArray($check, $charList, $i - 1);
+            } else {
+                $charList = Util::swapArray($check, $charList, $i);
+            }
+        }
+        return str_replace(" ", "", Util::convertListTostring($charList));
+    }
+
+    public static function getThaimapper($thaimapper = "") {
+        if ($thaimapper == "") {
+            $thaimapper = new ThaiSanscript();
+        }
+        return $thaimapper;
     }
 
 }

@@ -1,12 +1,16 @@
 <?php
 
-include '../src/ThaiSanscript.php';
+
 
 use ThaiSanskrit\ThaiSanscript;
 
 class ThaiSanscriptTest extends PHPUnit_Framework_TestCase {
 
-    public $thaiSanscript;
+     public $thaiMapper;
+
+    public function __construct() {
+        $this->thaiMapper = new ThaiSanscript();
+    }
 
     public function testgetAnusvara() {
         $src = "อ,ก,ค,ง,จ,ช,ญ,ฏ,ฑ,ณ,ต,ท,น,ป,พ,ม,ย,ร,ล,ว,ฬ,ศ,ษ,ส,ห,ห์,',ข,ฉ,ฐ,ถ,ผ,ฆ,ฌ,ฒ,ธ,ภ";
@@ -15,33 +19,33 @@ class ThaiSanscriptTest extends PHPUnit_Framework_TestCase {
         $revert = "";
         $assrt = "มงงงญญญณณณนนนมมมมมมมมมมมมมมงญณนมงญณนม";
         foreach ($src as $value) {
-            $revert .= ThaiSanscript::getAnusvara($value);
+            $revert .= $this->thaiMapper->getAnusvara($value);
         }
         $this->assertEquals($assrt, $revert);
     }
 
     public function testsetRevertFlag() {
-        $torevert = ThaiSanscript::$singleConsonant;
+        $torevert = $this->thaiMapper->singleConsonant;
         $revert = array();
-        $revert = ThaiSanscript::setRevertFlag($revert, $torevert);
+        $revert = $this->thaiMapper->setRevertFlag($revert, $torevert);
         $assrt = "k,g,ṅ,c,j,ñ,ṭ,ḍ,ṇ,t,d,n,p,b,m,y,r,l,v,ḻ,ś,ṣ,s,h,ṁ,ṃ,ḥ,'";
         $src = implode(",", $revert);
         $this->assertEquals($assrt, $src);
     }
 
     public function testmappingIsThaiConsonant() {
-        $consonant = ThaiSanscript::mappingIsThaiConsonant();
+        $consonant = $this->thaiMapper->mappingIsThaiConsonant();
         //print_r($consonant);
         $assrt = "อ,ก,ค,ง,จ,ช,ญ,ฏ,ฑ,ณ,ต,ท,น,ป,พ,ม,ย,ร,ล,ว,ฬ,ศ,ษ,ส,ห,ँ,ํ,ห์,',ข,ฉ,ฐ,ถ,ผ,ฆ,ฌ,ฒ,ธ,ภ";
-        $revert = ThaiSanscript::setRevertFlag(array(), $consonant);
+        $revert = $this->thaiMapper->setRevertFlag(array(), $consonant);
         $src = implode(",", $revert);
         $this->assertEquals($assrt, $src);
     }
 
     public function testmappingIsThaiVowel() {
-        $vowel = ThaiSanscript::mappingIsThaiVowel();
+        $vowel = $this->thaiMapper->mappingIsThaiVowel();
         $assrt = "ั,า,ิ,ี,ุ,ู,ฤ,เ,โ,ไ,เา";
-        $revert = ThaiSanscript::setRevertFlag(array(), $vowel);
+        $revert = $this->thaiMapper->setRevertFlag(array(), $vowel);
         $src = implode(",", $revert);
         $this->assertEquals($assrt, $src);
     }

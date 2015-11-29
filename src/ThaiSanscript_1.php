@@ -27,9 +27,9 @@ namespace ThaiSanskrit;
 class ThaiSanscript {
 
 // Transliteration process option defaults.
-    public $chandrabindu = "ँ";
-    public $anusvara = "ํ";
-    public $thaiVowelInFist = array(
+    public static $chandrabindu = "ँ";
+    public static $anusvara = "ํ";
+    public static $thaiVowelInFist = array(
         'ะ' => 'อะ',
         "า" => "อา",
         "ิ" => "อิ",
@@ -39,7 +39,7 @@ class ThaiSanscript {
         "เ" => "เอ",
         "โ" => "โอ"
     );
-    public $singleVowel = array(
+    public static $singleVowel = array(
         "a" => "ะ",
         "ā" => "า",
         "i" => "ิ",
@@ -52,12 +52,12 @@ class ThaiSanscript {
         "ō" => "โ",
         "o" => "โ"
     );
-    public $mixVowel = array(
+    public static $mixVowel = array(
         "ai" => "ไ",
         "au" => "เา",
         "r̥" => "ฤ"
     );
-    public $singleConsonant = array(
+    public static $singleConsonant = array(
         "k" => "ก",
         "g" => "ค",
         "ṅ" => "ง",
@@ -83,13 +83,13 @@ class ThaiSanscript {
         "ṣ" => "ษ",
         "s" => "ส",
         "h" => "ห",
-        "ṁ" => "ँ",
-//        "ṁ" => "ัํ",
+//        "ṁ" => "ँ",
+        "ṁ" => "ัํ",
         "ṃ" => "ํ",
         "ḥ" => "ห์",
         "'" => "'"
     );
-    public $mixConsonant = array(
+    public static $mixConsonant = array(
         "kh" => "ข",
         "ch" => "ฉ",
         "ṭh" => "ฐ",
@@ -103,25 +103,25 @@ class ThaiSanscript {
         "bh" => "ภ"
     );
 
-    public function mappingIsThaiVowel() {
+    public static function mappingIsThaiVowel() {
 
         $revert = array();
         $revert["ั"] = 'a';
-        $singleVowel = $this->singleVowel;
-        $revert = $this->setRevertFlag($revert, $singleVowel);
-        $mixVowel = $this->mixVowel;
-        $revert = $this->setRevertFlag($revert, $mixVowel);
+        $singleVowel = ThaiSanscript::$singleVowel;
+        $revert = ThaiSanscript::setRevertFlag($revert, $singleVowel);
+        $mixVowel = ThaiSanscript::$mixVowel;
+        $revert = ThaiSanscript::setRevertFlag($revert, $mixVowel);
         return $revert;
     }
 
-    public function mappingIsThaiConsonant() {
+    public static function mappingIsThaiConsonant() {
 
         $revert = array();
         $revert["อ"] = 'a';
-        $single = $this->singleConsonant;
-        $revert = $this->setRevertFlag($revert, $single);
-        $mix = $this->mixConsonant;
-        $revert = $this->setRevertFlag($revert, $mix);
+        $single = ThaiSanscript::$singleConsonant;
+        $revert = ThaiSanscript::setRevertFlag($revert, $single);
+        $mix = ThaiSanscript::$mixConsonant;
+        $revert = ThaiSanscript::setRevertFlag($revert, $mix);
         return $revert;
     }
 
@@ -129,7 +129,7 @@ class ThaiSanscript {
      * @var $revertMap array()
      */
 
-    public function setRevertFlag($revert, $torevert) {
+    public static function setRevertFlag($revert, $torevert) {
 
         foreach ($torevert as $key => $value) {
             $keyNew = $value;
@@ -140,7 +140,7 @@ class ThaiSanscript {
         return $revert;
     }
 
-    public function getAnusvara($nextConsonant = "") {
+    public static function getAnusvara($nextConsonant = "") {
         $return = "ม";
         //kaṇṭhya(Guttural)
         //ก (กะ): k = ก (กะ) kh = ข (ขะ) g = ค (คะ) gh = ฆ (ฆะ) ṅ = ง (งะ)
