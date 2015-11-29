@@ -24,7 +24,7 @@ class ThaiSanscriptTest extends PHPUnit_Framework_TestCase {
         $torevert = ThaiSanscript::$singleConsonant;
         $revert = array();
         $revert = ThaiSanscript::setRevertFlag($revert, $torevert);
-        $assrt = "k,g,ṅ,c,j,ñ,ṭ,ḍ,ṇ,t,d,n,p,b,m,y,r,l,v,ḻ,ś,ṣ,s,h,ḥ,'";
+        $assrt = "k,g,ṅ,c,j,ñ,ṭ,ḍ,ṇ,t,d,n,p,b,m,y,r,l,v,ḻ,ś,ṣ,s,h,ṁ,ṃ,ḥ,'";
         $src = implode(",", $revert);
         $this->assertEquals($assrt, $src);
     }

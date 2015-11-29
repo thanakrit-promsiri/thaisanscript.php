@@ -1,29 +1,32 @@
 <?php
 
 include '../src/ThaiSanscriptRule.php';
+include '../src/ThaiVisargaRuleConvert.php';
+include '../src/Util.php';
 
 use ThaiSanskrit\ThaiSanscriptRule;
 use ThaiSanskrit\ThaiSanscript;
+use ThaiSanskrit\Util;
 
 class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
 
     private function isThaiVowel($array, $asrt) {
         foreach ($array as $value) {
-            $result = ThaiSanscriptRule::isThaiVowel($value);
+            $result = Util::isThaiVowel($value);
             $this->assertEquals($asrt, $result ? 1 : 0);
         }
     }
 
     private function isThaiConsonant($array, $asrt) {
         foreach ($array as $value) {
-            $result = ThaiSanscriptRule::isThaiConsonant($value);
+            $result = Util::isThaiConsonant($value);
             $this->assertEquals($asrt, $result ? 1 : 0);
         }
     }
-    
-     private function isThaiCharacter($array, $asrt) {
+
+    private function isThaiCharacter($array, $asrt) {
         foreach ($array as $value) {
-            $result = ThaiSanscriptRule::isThaiCharacter($value);
+            $result = Util::isThaiCharacter($value);
             $this->assertEquals($asrt, $result ? 1 : 0);
         }
     }
@@ -51,7 +54,7 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $this->isThaiConsonant($array4, 0);
         $this->isThaiConsonant(array(" "), 0);
     }
-    
+
     public function testisThaiCharacter() {
         $array1 = ThaiSanscript::$singleConsonant;
         $array2 = ThaiSanscript::$mixConsonant;
@@ -61,20 +64,20 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $this->isThaiCharacter($array2, 1);
         $this->isThaiCharacter($array3, 1);
         $this->isThaiCharacter($array4, 1);
-        $this->isThaiCharacter(array(" ","-","@",","), 0);
+        $this->isThaiCharacter(array(" ", "-", "@", ","), 0);
     }
 
     public function testconvertListTostring() {
 
         $asrt = "as df ฟหกดเสวง";
-        $src = ThaiSanscriptRule::convertListTostring(array('a', 's', ' ', 'd', 'f', ' ', 'ฟ', 'ห', 'ก', 'ด', 'เ', 'ส', 'ว', 'ง'));
+        $src = Util::convertListTostring(array('a', 's', ' ', 'd', 'f', ' ', 'ฟ', 'ห', 'ก', 'ด', 'เ', 'ส', 'ว', 'ง'));
         $this->assertEquals($asrt, $src);
     }
 
     public function testcharList() {
 
         $asrt = array('a', 's', ' ', 'd', 'f', ' ', 'ฟ', 'ห', 'ก', 'ด', 'เ', 'ส', 'ว', 'ง');
-        $src = ThaiSanscriptRule::charList("as df ฟหกดเสวง");
+        $src = Util::charList("as df ฟหกดเสวง");
         $this->assertEquals($asrt, $src);
     }
 
@@ -82,7 +85,7 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $asrt = "ฟหก";
         $romanize = "ASD";
         $mapping = array("A" => "ฟ", "S" => "ห", "D" => "ก");
-        $src = ThaiSanscriptRule::Mapper($mapping, $romanize);
+        $src = Util::Mapper($mapping, $romanize);
         $this->assertEquals($asrt, $src);
     }
 
@@ -90,9 +93,9 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $mapping = ThaiSanscript::$singleConsonant;
         $revert = array();
         $romanize = ThaiSanscript::setRevertFlag($revert, $mapping);
-        $src = ThaiSanscriptRule::convertRomanizeSingleConsonant($romanize);
+        $src = Util::convertRomanizeSingleConsonant($romanize);
         $src = implode("", $src);
-        $asrt = "กคงจชญฏฑณตทนปพมยรลวฬศษสหห์'";
+        $asrt = "กคงจชญฏฑณตทนปพมยรลวฬศษสหँํห์'";
         $this->assertEquals($asrt, $src);
     }
 
@@ -100,7 +103,7 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $mapping = ThaiSanscript::$mixConsonant;
         $revert = array();
         $romanize = ThaiSanscript::setRevertFlag($revert, $mapping);
-        $src = ThaiSanscriptRule::convertRomanizeMixConsonant($romanize);
+        $src = Util::convertRomanizeMixConsonant($romanize);
         $src = implode("", $src);
         $asrt = "ขฉฐถผญฆฌฒธภ";
         $this->assertEquals($asrt, $src);
@@ -110,7 +113,7 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $mapping = ThaiSanscript::$singleVowel;
         $revert = array();
         $romanize = ThaiSanscript::setRevertFlag($revert, $mapping);
-        $src = ThaiSanscriptRule::convertRomanizeSingleVowel($romanize);
+        $src = Util::convertRomanizeSingleVowel($romanize);
         $src = implode("", $src);
         $asrt = "ะาิีุูฤเโ";
         $this->assertEquals($asrt, $src);
@@ -120,7 +123,7 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
         $mapping = ThaiSanscript::$mixVowel;
         $revert = array();
         $romanize = ThaiSanscript::setRevertFlag($revert, $mapping);
-        $src = ThaiSanscriptRule::convertRomanizeMixVowel($romanize);
+        $src = Util::convertRomanizeMixVowel($romanize);
         $src = implode("", $src);
         $asrt = "ไเาฤ";
         $this->assertEquals($asrt, $src);
@@ -136,7 +139,7 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
 
     public function testswapArray() {
         $src = array("A", "B");
-        $src = ThaiSanscriptRule::swapArray(true, $src, 1);
+        $src = Util::swapArray(true, $src, 1);
         $asrt = array("B", "A");
         $this->assertEquals($asrt, $src);
     }
@@ -153,19 +156,27 @@ class ThaiSanscriptRuleTest extends PHPUnit_Framework_TestCase {
 //        try {
         $src = "ะนกะ";
         $asrt = "อันกะ";
-        $src = ThaiSanscriptRule::convertThaiVisarga($src);      
+        $src = ThaiSanscriptRule::convertThaiVisarga($src);
         $this->assertEquals($asrt, $src);
-        
+
         $src = "ระก";
         $asrt = "รัก";
         $src = ThaiSanscriptRule::convertThaiVisarga($src);
         $this->assertEquals($asrt, $src);
-        
-        
+
+
 ////              
 //        } catch (Exception $exc) {
 //            echo $exc->getTraceAsString();
 //        }
+    }
+
+    public function testconvertThaiAAInFist() {
+
+        $src = "॥ารยะวัชรัจเฉทิกา";
+        $asrt = "॥อารยะวัชรัจเฉทิกา";
+        $src = ThaiSanscriptRule::convertThaiAAInFist($src);
+        $this->assertEquals($asrt, $src);
     }
 
 }

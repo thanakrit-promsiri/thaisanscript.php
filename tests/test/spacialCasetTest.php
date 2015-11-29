@@ -87,6 +87,8 @@ class spacialCase extends PHPUnit_Framework_TestCase {
     public function testCase20() {
         $this->spacialCase("otīṇṇā ", "โอตีณณา");
     }
+    
+    
 
 //saṃkara
 //saṃcara
@@ -120,13 +122,53 @@ class spacialCase extends PHPUnit_Framework_TestCase {
         $this->spacialCase("saṃvara", "สัมวะระ");
         $this->spacialCase("saṃharaṇa", "สัมหะระณะ");
     }
-     public function testCaseVyVisaga() {
-         //
+
+    public function testCaseVyVisaga() {
+        //
         $this->spacialCase("vyākaraṇa", "วยากะระณะ");
         $this->spacialCase("sthātavyaṃ", "สถาตะวยัม"); // สถาตัวยัม
         $this->spacialCase("pratipattavyaṃ", "ประติปัตตะวยัม"); // ประติปัตตัวยัม
         $this->spacialCase("pragrahītavyam", "ประคระหีตะวยัม"); // ประคระหีตัวยัม
-        
+    }
+
+    public function testCase21() {
+
+        $this->spacialCase("srotaāpannasyaivaṃ", "โสรตะอาปันนัสไยวัม"); //โสรตะาปันนัสไยวัม
+    }
+
+    public function testCase22() {
+
+        $this->spacialCase("srotaāpattiphalaṃ", "โสรตะอาปัตติผะลัม"); // โสรตะาปัตติผะลัม
+    }
+
+    public function testCase23() {
+
+        $this->spacialCase("jāni‍a", "ชานิอะ"); // ชานิอะ
+    }
+
+    public function testCase24() {
+
+        $this->spacialCase("srotaapattiphalaṃ", "โสรตะอะปัตติผะลัม"); // โสรตะาปัตติผะลัม
+    }
+
+    public function testCase25() {
+
+        $this->spacialCase("॥āryavajracchedikā", "॥อารยะวัชรัจเฉทิกา"); // ॥ารยะวัชรัจเฉทิกา     
+    }
+
+    public function testCase26() {
+
+        $this->spacialCase("draupadī", "เทราปะที"); //โสรตะาปันนัสไยวัม        
+    }
+    
+    public function testCase27() {
+
+        $this->spacialCase("draupadī", "เทราปะที"); //โสรตะาปันนัสไยวัม        
+    }
+    
+    public function testCase28() {
+
+        $this->spacialCase("āryaprajñāpāramitāyai", "อารยะปรัชญาปาระมิตาไย"); //อารยัปรัชญาปาระมิตาไย        
     }
     
 

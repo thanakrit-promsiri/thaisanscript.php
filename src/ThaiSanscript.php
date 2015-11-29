@@ -30,7 +30,7 @@ class ThaiSanscript {
     public static $chandrabindu = "ँ";
     public static $anusvara = "ํ";
     public static $thaiVowelInFist = array(
-        "ะ" => "อะ",
+        'ะ' => 'อะ',
         "า" => "อา",
         "ิ" => "อิ",
         "ี" => "อี",
