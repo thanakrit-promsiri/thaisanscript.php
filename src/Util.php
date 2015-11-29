@@ -101,6 +101,34 @@ class Util {
         return str_replace(" ", "", Util::convertListTostring($charList));
     }
 
+    public static function convertThaiVowelInFist($thaiChar, $thaimapper = "") {
+        mb_internal_encoding("UTF-8");
+        $mapping = Util::getThaimapper($thaimapper)->thaiVowelInFist;
+        $charList = Util::charList($thaiChar);
+
+        if (count($charList) > 0) {
+            foreach ($mapping as $key => $value) {
+                if ($charList[0] === $key) {
+                    $charList[0] = $value;
+                }
+//                $charList = Util::charList($thaiChar);
+                for ($index = 1; $index < count($charList); $index++) {
+
+                    $check1 = !Util::isThaiConsonant($charList[$index - 1]);
+                    $check2 = $charList[$index] == $key;
+                    $check3 = $charList[$index] != "เ" && $charList[$index] != "า"; //ยกเว้นไว้กรณี สระเอา ก่อน
+
+                    if ($check1 && $check2 && $check3) {
+                        $charList[$index] = $value;
+                    }
+                }
+                $thaiChar = Util::convertListTostring($charList);
+                $thaiChar = str_replace("\xE2\x80\x8D", "", $thaiChar); //Remove ZERO WIDTH JOINER
+            }
+        }
+        return $thaiChar;
+    }
+
     public static function getThaimapper($thaimapper = "") {
         if ($thaimapper == "") {
             $thaimapper = new ThaiSanscript();

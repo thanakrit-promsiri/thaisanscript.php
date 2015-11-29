@@ -84,7 +84,6 @@ class ThaiSanscript {
         "s" => "ส",
         "h" => "ห",
         "ṁ" => "ँ",
-//        "ṁ" => "ัํ",
         "ṃ" => "ํ",
         "ḥ" => "ห์",
         "'" => "'"
@@ -102,6 +101,15 @@ class ThaiSanscript {
         "dh" => "ธ",
         "bh" => "ภ"
     );
+
+    public function __construct($inform = FALSE) {
+        if ($inform) {
+            $this->singleConsonant["ḥ"] = "ะ";
+            $this->singleVowel["a"] = "a";
+            $this->thaiVowelInFist = array_merge($this->thaiVowelInFist, array("a" => "อ"));
+            unset($this->thaiVowelInFist['ะ']);
+        }
+    }
 
     public function mappingIsThaiVowel() {
 

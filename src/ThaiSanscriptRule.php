@@ -37,7 +37,7 @@ class ThaiSanscriptRule {
         $romanize = $this->convertAnusvaraAndChandrabindu($romanize);
         $this->printTrackMode($romanize, $isTracking);
 
-        $romanize = $this->convertThaiVowelInFist($romanize);
+        $romanize = Util::convertThaiVowelInFist($romanize);
         $this->printTrackMode($romanize, $isTracking);
 
         $thaiChar = $romanize;
@@ -73,33 +73,7 @@ class ThaiSanscriptRule {
         return str_replace(" ", "", Util::convertListTostring($charList));
     }
 
-    public function convertThaiVowelInFist($thaiChar) {
-        mb_internal_encoding("UTF-8");
-        $mapping = $this->thaimapper->thaiVowelInFist;
-        $charList = Util::charList($thaiChar);
-
-        if (count($charList) > 0) {
-            foreach ($mapping as $key => $value) {
-                if ($charList[0] === $key) {
-                    $charList[0] = $value;
-                }
-//                $charList = Util::charList($thaiChar);
-                for ($index = 1; $index < count($charList); $index++) {
-
-                    $check1 = !Util::isThaiConsonant($charList[$index - 1]);
-                    $check2 = $charList[$index] == $key;
-                    $check3 = $charList[$index] != "เ" && $charList[$index] != "า"; //ยกเว้นไว้กรณี สระเอา ก่อน
-
-                    if ($check1 && $check2 && $check3) {
-                        $charList[$index] = $value;
-                    }
-                }
-                $thaiChar = Util::convertListTostring($charList);
-                $thaiChar = str_replace("\xE2\x80\x8D", "", $thaiChar); //Remove ZERO WIDTH JOINER
-            }
-        }
-        return $thaiChar;
-    }
+   
 
     public function convertThaiAAInFist($thaiChar) { //แปลงท้ายสุดแก้ปัญหา สระ เอา จะเหลือสระอา ดังนั้นต้องแปลงอีก
         $charList = Util::charList($thaiChar);

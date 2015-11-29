@@ -1,9 +1,6 @@
 <?php
 
-
-
 use ThaiSanskrit\ThaiSanscriptAPI;
-
 
 class spacialCase extends PHPUnit_Framework_TestCase {
 
@@ -88,8 +85,6 @@ class spacialCase extends PHPUnit_Framework_TestCase {
     public function testCase20() {
         $this->spacialCase("otīṇṇā ", "โอตีณณา");
     }
-    
-    
 
 //saṃkara
 //saṃcara
@@ -161,17 +156,20 @@ class spacialCase extends PHPUnit_Framework_TestCase {
 
         $this->spacialCase("draupadī", "เทราปะที"); //โสรตะาปันนัสไยวัม        
     }
-    
+
     public function testCase27() {
 
         $this->spacialCase("draupadī", "เทราปะที"); //โสรตะาปันนัสไยวัม        
     }
-    
+
     public function testCase28() {
 
         $this->spacialCase("āryaprajñāpāramitāyai", "อารยะปรัชญาปาระมิตาไย"); //อารยัปรัชญาปาระมิตาไย        
     }
-    
+
+    public function testCaseTest() {
+        //echo ord('');echo ord('') ;
+    }
 
     public function spacialCase($src, $asrt) {
         $thaiSanscriptAPI = new ThaiSanscriptAPI();
