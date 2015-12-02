@@ -166,9 +166,10 @@ class spacialCase extends PHPUnit_Framework_TestCase {
 
         $this->spacialCase("āryaprajñāpāramitāyai", "อารยะปรัชญาปาระมิตาไย"); //อารยัปรัชญาปาระมิตาไย        
     }
-
-    public function testCaseTest() {
+//sarvairekajātipratibaddhaiḥ สรรไเวรกะชาติประติพัทไธห์
+    public function testCaseTest29() {
         //echo ord('');echo ord('') ;
+          $this->spacialCase("sarvairekajātipratibaddhaiḥ", "สรรไวเรกะชาติประติพัทไธห์"); //อารยัปรัชญาปาระมิตาไย  
     }
 
     public function spacialCase($src, $asrt) {

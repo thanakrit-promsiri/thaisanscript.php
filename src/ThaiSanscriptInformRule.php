@@ -37,14 +37,22 @@ class ThaiSanscriptInformRule {
         $txt = $this->convertBindu($txt);
         $this->printTrackMode($txt, $isTracking);
 
-       
 
-        $txt = Util::convertThaiVowelInFist($txt,$informmapper);
+        $txt = Util::convertThaiVowelInFist($txt, $informmapper);
         $this->printTrackMode($txt, $isTracking);
 
-        $txt = Util::convertThaiVowelPrefix($txt,$informmapper);
+        $txt = Util::convertThaiVowelPrefix($txt, $informmapper);
         $this->printTrackMode($txt, $isTracking);
- $txt = $this->removeA($txt);
+
+        $txt = $this->removeA($txt);
+        $this->printTrackMode($txt, $isTracking);
+
+        
+
+        $txt = $this->swapAnusvaraAndChandrabindu($txt);
+        $this->printTrackMode($txt, $isTracking);
+        
+        $txt = $this->convertChandrabindu($txt);
         $this->printTrackMode($txt, $isTracking);
 
         return $txt;
@@ -91,6 +99,31 @@ class ThaiSanscriptInformRule {
         $txt = Util::convertListTostring($charList);
 
         return $txt;
+    }
+
+    public function convertChandrabindu($txt) {
+
+        $txt = str_replace($this->informmapper->chandrabindu, "ัํ", $txt);
+
+        return $txt;
+    }
+
+    public function swapAnusvaraAndChandrabindu($txt) {
+        $txt = $txt . "  "; //  after space 2  reserve  for condition
+        $charList = Util::charList($txt);
+        for ($i = 1; $i < count($charList); $i++) {
+
+
+            if ($charList[$i] == "า") {
+
+                if ($charList[$i + 1] == "ํ") {
+                    $charList = Util::swapArray(TRUE, $charList, $i+1);
+                } elseif ($charList[$i + 1] == $this->informmapper->chandrabindu) {
+                    $charList = Util::swapArray(TRUE, $charList, $i+1);                
+                }
+            }
+        }
+        return str_replace(" ", "", Util::convertListTostring($charList));
     }
 
 }

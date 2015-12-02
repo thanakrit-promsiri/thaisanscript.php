@@ -7,7 +7,7 @@ use ThaiSanskrit\Util;
 class ThaiVisargaConvert {
 
     public function convert($thaiChar) {
-        $thaiChar = " " . $thaiChar . "      "; // before space 1 after space 6  reserve  for condition
+        $thaiChar = "    " . $thaiChar . "      "; // before space 4 after space 6  reserve  for condition
         $charList = Util::charList($thaiChar);
 
         for ($i = 0; $i < count($charList); $i++) {
@@ -70,8 +70,14 @@ class ThaiVisargaConvert {
     }
 
     protected function thaivisarga_rule($charList, $i) {
-
-        if (($charList[$i + 1] != "ว")) { //เว้น ว ไว้ทุก กรณี เช่น ตะว เพื่อป้องกันการ ออกเสียงสระ อัว เช่น ตัว
+        $_before4 = $charList[$i - 4];
+        $_before3 = $charList[$i - 3];
+        $_before2 = $charList[$i - 2];
+        $_before1 = $charList[$i - 1];
+        $_after1 = $charList[$i + 1];
+       $conSarva =  !($_before4 == "ส" && $_before3 == "ร" && $_before2 == "ร" && $_before1 == "ว"  );
+ 
+        if (($charList[$i + 1] != "ว" && $conSarva)) { //เว้น ว ไว้ทุก กรณี เช่น ตะว เพื่อป้องกันการ ออกเสียงสระ อัว เช่น ตัว
             $charList = $this->thaivisarga_non_consonantclusters($charList, $i);
             $charList = $this->thaivisarga_consonantclusters($charList, $i);
             $charList = $this->thaivisarga_lastword($charList, $i);
@@ -107,13 +113,17 @@ class ThaiVisargaConvert {
 //        CACRVHCV--------- non visarga
 //        āryaprajñāpāramitāyai อารยะปรัชญาปาระมิตา(ประช)
 //        --CAPRAJ non visarga
+//        sarvajñāya สรรวะชญายะ
+//        0000ACCV non visarga
 //           C A C R V C[C] visarga
 //           C A C R V C[V] non visarga
 //           C A C R V[H]C non visarga
 //           C A[P R A J] non visarga
 //           0 1 2 3 4 5 6
-
-        $_before = $charList[$i - 1];
+        $_before4 = $charList[$i - 4];
+        $_before3 = $charList[$i - 3];
+        $_before2 = $charList[$i - 2];
+        $_before1 = $charList[$i - 1];
         $_current = $charList[$i];
         $_after1 = $charList[$i + 1];
         $_after2 = $charList[$i + 2];
@@ -121,7 +131,7 @@ class ThaiVisargaConvert {
         $_after4 = $charList[$i + 4];
         $_after5 = $charList[$i + 5];
 
-        $condition = Util::isThaiConsonant($_before) && //C
+        $condition = Util::isThaiConsonant($_before1) && //C
                 $_current == "ะ" && //A
                 Util::isThaiConsonant($_after1) && //C
                 $_after2 == "ร" && //R       
@@ -130,6 +140,7 @@ class ThaiVisargaConvert {
                 $_after4 != "ห" && //R
                 Util::isThaiConsonant($_after5) && //C
                 !($_after1 == "ป" && $_after2 == "ร" && $_after3 == "ะ" && $_after4 == "ช" ); //[P R A J]
+
         if ($condition) {
             $charList[$i] = "ั";
         }

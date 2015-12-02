@@ -84,14 +84,21 @@ class Util {
     }
 
     public static function convertThaiVowelPrefix($thaiChar) {
-        $thaiChar = "   " . $thaiChar; // before space 2 after space 6  reserve  for condition
+        $thaiChar = "    " . $thaiChar; // before space 3 after space 6  reserve  for condition
         $charList = Util::charList($thaiChar);
         for ($i = 1; $i < count($charList); $i++) {
 
             $check = $charList[$i] === "เ" ||
                     $charList[$i] === "โ" ||
                     $charList[$i] === "ไ";
-            if ($check && Util::isThaiConsonant($charList[$i - 2]) && $charList[$i - 1] == "ร") {
+
+            $condition = $check &&
+                    Util::isThaiConsonant($charList[$i - 2]) &&
+                    $charList[$i - 1] == "ร" &&
+                    $charList[$i - 3] != "เ" &&
+                    $charList[$i - 3] != "โ" &&
+                    $charList[$i - 3] != "ไ";
+            if ($condition) {
                 $charList = Util::swapArray($check, $charList, $i);
                 $charList = Util::swapArray($check, $charList, $i - 1);
             } else {
