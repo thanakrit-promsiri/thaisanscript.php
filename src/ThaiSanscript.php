@@ -37,7 +37,8 @@ class ThaiSanscript {
         "ุ" => "อุ",
         "ู" => "อู",
         "เ" => "เอ",
-        "โ" => "โอ"
+        "โ" => "โอ",
+        "ไ" => "ไอ"
     );
     public $singleVowel = array(
         "a" => "ะ",
@@ -101,6 +102,35 @@ class ThaiSanscript {
         "dh" => "ธ",
         "bh" => "ภ"
     );
+    public $num = array(
+        "0" => "๐",
+        "1" => "๑",
+        "2" => "๒",
+        "3" => "๓",
+        "4" => "๔",
+        "5" => "๕",
+        "6" => "๖",
+        "7" => "๗",
+        "8" => "๘",
+        "9" => "๙",
+        "||" => "๚",
+        "॥" => "๚",
+        "|" => "ฯ",
+        "।" => "ฯ",
+    );
+    public $mixVowelTh;
+    public $mixVowelRm;
+    public $singleVowelTh;
+    public $singleVowelRm;
+    public $mixConsonantTh;
+    public $mixConsonantRm;
+    public $singleConsonantTh;
+    public $singleConsonantRm;
+    public $numRm;
+    public $numTh;
+    public $revert_vowel;
+    public $revert_consonant;
+    public $anusvaraLast;
 
     public function __construct($inform = FALSE) {
         if ($inform) {
@@ -109,28 +139,47 @@ class ThaiSanscript {
             $this->thaiVowelInFist = array_merge($this->thaiVowelInFist, array("a" => "อ"));
             unset($this->thaiVowelInFist['ะ']);
         }
+
+        $this->revert_vowel = $this->setMappingIsThaiVowel();
+        $this->revert_consonant = $this->setMappingIsThaiConsonant();
+        $this->anusvaraLast = $this->setAnusvara();
+
+        $return = $this->separate($this->mixVowel);
+        $this->mixVowelTh = $return['th'];
+        $this->mixVowelRm = $return['rm'];
+
+        $return = $this->separate($this->singleVowel);
+        $this->singleVowelTh = $return['th'];
+        $this->singleVowelRm = $return['rm'];
+
+        $return = $this->separate($this->mixConsonant);
+        $this->mixConsonantTh = $return['th'];
+        $this->mixConsonantRm = $return['rm'];
+
+        $return = $this->separate($this->singleConsonant);
+        $this->singleConsonantTh = $return['th'];
+        $this->singleConsonantRm = $return['rm'];
+
+        $return = $this->separate($this->num);
+        $this->numTh = $return['th'];
+        $this->numRm = $return['rm'];
+    }
+
+    private function separate($array) {
+        $return = array();
+        foreach ($array as $key => $value) {
+            $return['rm'][] = $key;
+            $return['th'][] = $value;
+        }
+        return $return;
     }
 
     public function mappingIsThaiVowel() {
-
-        $revert = array();
-        $revert["ั"] = 'a';
-        $singleVowel = $this->singleVowel;
-        $revert = $this->setRevertFlag($revert, $singleVowel);
-        $mixVowel = $this->mixVowel;
-        $revert = $this->setRevertFlag($revert, $mixVowel);
-        return $revert;
+        return $this->revert_vowel;
     }
 
     public function mappingIsThaiConsonant() {
-
-        $revert = array();
-        $revert["อ"] = 'a';
-        $single = $this->singleConsonant;
-        $revert = $this->setRevertFlag($revert, $single);
-        $mix = $this->mixConsonant;
-        $revert = $this->setRevertFlag($revert, $mix);
-        return $revert;
+        return $this->revert_consonant;
     }
 
     /* @var $revert array()
@@ -150,6 +199,19 @@ class ThaiSanscript {
 
     public function getAnusvara($nextConsonant = "") {
         $return = "ม";
+        //(เศษวรรค): y = ย (ยะ) r = ร (ระ) l = ล (ละ) v = ว (วะ) ś = ศ (ศะ)
+        //ṣ = ษ (ษะ) s = ส (สะ) h = ห (หะ)
+        // return ม
+        $merge = $this->anusvaraLast;
+        if (isset($merge[$nextConsonant])) {
+            $return = $merge[$nextConsonant];
+        }
+
+        return $return;
+    }
+
+    private function setAnusvara() {
+
         //kaṇṭhya(Guttural)
         //ก (กะ): k = ก (กะ) kh = ข (ขะ) g = ค (คะ) gh = ฆ (ฆะ) ṅ = ง (งะ)
         $guttural_return = "ง";
@@ -202,14 +264,29 @@ class ThaiSanscript {
             "ม" => $labial_return,
         );
         $merge = array_merge($guttural, $palatal, $retroflex, $dental, $labial);
+        return $merge;
+    }
 
-        if (isset($merge[$nextConsonant])) {
-            $return = $merge[$nextConsonant];
-        }
-        //(เศษวรรค): y = ย (ยะ) r = ร (ระ) l = ล (ละ) v = ว (วะ) ś = ศ (ศะ)
-        //ṣ = ษ (ษะ) s = ส (สะ) h = ห (หะ)
-        // return ม
-        return $return;
+    private function setMappingIsThaiVowel() {
+
+        $revert = array();
+        $revert["ั"] = 'a';
+        $singleVowel = $this->singleVowel;
+        $revert = $this->setRevertFlag($revert, $singleVowel);
+        $mixVowel = $this->mixVowel;
+        $revert = $this->setRevertFlag($revert, $mixVowel);
+        return $revert;
+    }
+
+    private function setMappingIsThaiConsonant() {
+
+        $revert = array();
+        $revert["อ"] = 'a';
+        $single = $this->singleConsonant;
+        $revert = $this->setRevertFlag($revert, $single);
+        $mix = $this->mixConsonant;
+        $revert = $this->setRevertFlag($revert, $mix);
+        return $revert;
     }
 
 }

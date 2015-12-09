@@ -149,7 +149,7 @@ class spacialCase extends PHPUnit_Framework_TestCase {
 
     public function testCase25() {
 
-        $this->spacialCase("॥āryavajracchedikā", "॥อารยะวัชรัจเฉทิกา"); // ॥ารยะวัชรัจเฉทิกา     
+        $this->spacialCase("-āryavajracchedikā", "-อารยะวัชรัจเฉทิกา"); // ॥ารยะวัชรัจเฉทิกา     
     }
 
     public function testCase26() {
@@ -166,17 +166,43 @@ class spacialCase extends PHPUnit_Framework_TestCase {
 
         $this->spacialCase("āryaprajñāpāramitāyai", "อารยะปรัชญาปาระมิตาไย"); //อารยัปรัชญาปาระมิตาไย        
     }
+
 //sarvairekajātipratibaddhaiḥ สรรไเวรกะชาติประติพัทไธห์
     public function testCaseTest29() {
         //echo ord('');echo ord('') ;
-          $this->spacialCase("sarvairekajātipratibaddhaiḥ", "สรรไวเรกะชาติประติพัทไธห์"); //อารยัปรัชญาปาระมิตาไย  
+        $this->spacialCase("sarvairekajātipratibaddhaiḥ", "สรรไวเรกะชาติประติพัทไธห์"); //อารยัปรัชญาปาระมิตาไย  
     }
 
-    public function spacialCase($src, $asrt) {
-        $thaiSanscriptAPI = new ThaiSanscriptAPI();
-        $src = $thaiSanscriptAPI->transliterationTracking($src);
-        echo " ['ASRT :" . $asrt . "' : '" . $src . "'] \n";
-        $this->assertEquals($asrt, $src);
+    public function testCaseTest30() {
+        //echo ord('');echo ord('') ;
+        $this->spacialCase("bhagavānāha-evaṃ", "ภะคะวานาหะ-เอวัม"); //ภะคะวานาหะเ-วัม   
     }
+
+//    public function testCaseTest31() {
+//        $this->spacialCase("dharmakṣetre", "ธรรมะเกษเตร"); //ภะคะวานาหะเ-วัม   
+//    }
+//
+//    public function testCaseTest32() {
+//        //echo ord('');echo ord('') ;
+//        $this->spacialCase("bhagavānāha-ovaṃ", "ภะคะวานาหะ-เอวัม"); //ภะคะวานาหะเ-วัม   
+//    }
+    public function testCaseTest33() {
+        //echo ord('');echo ord('') ;
+        $this->spacialCase( "-avaṃ-āvaṃ-ivaṃ-īvaṃ-uvaṃ-ūvaṃ-ṛvaṃ-evaṃ-ēvaṃ-ōvaṃ-ovaṃ-aivaṃ-auvaṃ-r̥vaṃ", "-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัม-เอวัม-เอวัม-โอวัม-โอวัม-ไอวัม-เอาวัม-ฤวัม"); //ภะคะวานาหะเ-วัม   
+    }
+    public function testCaseTest34() {
+        //echo ord('');echo ord('') ;
+//        ASRT :ภะคะวานาหะ-เอวัม ' : '-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัมเ-วัมเ-วัมโ-อวัมโ-อวัมไ-วัมเ-อาวัม-ฤวัม']:ภะคะวานาหะ-เอวัม ' : '-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัม-เวัม-เวัม-โอวัม-โอวัม-ไอวัม-เอาวัม-ฤวัม']
+        $this->spacialCase( " avama āvama ivama īvama uvama ūvama ṛvama evama ēvama ōvama ovama aivama auvama r̥vama", "อะวะมะอาวะมะอิวะมะอีวะมะอุวะมะอูวะมะฤวะมะเอวะมะเอวะมะโอวะมะโอวะมะไอวะมะเอาวะมะฤวะมะ"); //ภะคะวานาหะเ-วัม   
+    }
+
+    
+
+    public function spacialCase($src, $asrt) {
+    $thaiSanscriptAPI = new ThaiSanscriptAPI();
+    $src = $thaiSanscriptAPI->transliterationTracking($src);
+    echo " ['ASRT :" . $asrt . "' : '" . $src . "'] \n";
+    $this->assertEquals($asrt, $src);
+}
 
 }
