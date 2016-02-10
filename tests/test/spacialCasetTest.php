@@ -188,21 +188,37 @@ class spacialCase extends PHPUnit_Framework_TestCase {
 //    }
     public function testCaseTest33() {
         //echo ord('');echo ord('') ;
-        $this->spacialCase( "-avaṃ-āvaṃ-ivaṃ-īvaṃ-uvaṃ-ūvaṃ-ṛvaṃ-evaṃ-ēvaṃ-ōvaṃ-ovaṃ-aivaṃ-auvaṃ-r̥vaṃ", "-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัม-เอวัม-เอวัม-โอวัม-โอวัม-ไอวัม-เอาวัม-ฤวัม"); //ภะคะวานาหะเ-วัม   
+        $this->spacialCase("-avaṃ-āvaṃ-ivaṃ-īvaṃ-uvaṃ-ūvaṃ-ṛvaṃ-evaṃ-ēvaṃ-ōvaṃ-ovaṃ-aivaṃ-auvaṃ-r̥vaṃ", "-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัม-เอวัม-เอวัม-โอวัม-โอวัม-ไอวัม-เอาวัม-ฤวัม"); //ภะคะวานาหะเ-วัม   
     }
+
     public function testCaseTest34() {
         //echo ord('');echo ord('') ;
 //        ASRT :ภะคะวานาหะ-เอวัม ' : '-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัมเ-วัมเ-วัมโ-อวัมโ-อวัมไ-วัมเ-อาวัม-ฤวัม']:ภะคะวานาหะ-เอวัม ' : '-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัม-เวัม-เวัม-โอวัม-โอวัม-ไอวัม-เอาวัม-ฤวัม']
-        $this->spacialCase( " avama āvama ivama īvama uvama ūvama ṛvama evama ēvama ōvama ovama aivama auvama r̥vama", "อะวะมะอาวะมะอิวะมะอีวะมะอุวะมะอูวะมะฤวะมะเอวะมะเอวะมะโอวะมะโอวะมะไอวะมะเอาวะมะฤวะมะ"); //ภะคะวานาหะเ-วัม   
+        $this->spacialCase(" avama āvama ivama īvama uvama ūvama ṛvama evama ēvama ōvama ovama aivama auvama r̥vama", "อะวะมะอาวะมะอิวะมะอีวะมะอุวะมะอูวะมะฤวะมะเอวะมะเอวะมะโอวะมะโอวะมะไอวะมะเอาวะมะฤวะมะ"); //ภะคะวานาหะเ-วัม   
     }
-
     
-
+    public function testCase35() {
+        $this->spacialCase("nāvadhyānaprekṣiṇa", "นาวัธยานะเปรกษิณะ"); //นาวัธยานัเปรกษิณะ        
+    }
+     public function testCase36() {
+        $this->spacialCase("upaśrotrasthāne", "อุปะโศรตรัสถาเน"); //นาวัธยานัเปรกษิณะ        
+    }
+    
+     public function testCase37() {
+        $this->spacialCase("kuladuhitṝṇāṃ", "กุละทุหิตฤๅณาม"); //กุละทุหิตṝณาม        
+    }
+     public function testCase38() {
+        $this->spacialCase("kuladuhitḷṇāṃ", "กุละทุหิตฦณาม"); //กุละทุหิตṝณาม        
+    }
+     public function testCase39() {
+        $this->spacialCase("kuladuhitḹṇāṃ", "กุละทุหิตฦๅณาม"); //กุละทุหิตṝณาม        
+    }
+ 
     public function spacialCase($src, $asrt) {
-    $thaiSanscriptAPI = new ThaiSanscriptAPI();
-    $src = $thaiSanscriptAPI->transliterationTracking($src);
-    echo " ['ASRT :" . $asrt . "' : '" . $src . "'] \n";
-    $this->assertEquals($asrt, $src);
-}
+        $thaiSanscriptAPI = new ThaiSanscriptAPI();
+        $src = $thaiSanscriptAPI->transliterationTracking($src);
+        echo " ['ASRT :" . $asrt . "' : '" . $src . "'] \n";
+        $this->assertEquals($asrt, $src);
+    }
 
 }
