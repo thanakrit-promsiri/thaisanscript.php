@@ -4,7 +4,6 @@ namespace ThaiSanskrit;
 
 use ThaiSanskrit\ThaiSanscriptRule;
 use ThaiSanskrit\ThaiSanscriptInformRule;
-use ThaiSanskrit\Util;
 
 class ThaiSanscriptAPI {
 
