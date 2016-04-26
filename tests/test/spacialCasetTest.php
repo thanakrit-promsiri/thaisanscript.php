@@ -213,7 +213,9 @@ class spacialCase extends PHPUnit_Framework_TestCase {
      public function testCase39() {
         $this->spacialCase("kuladuhitḹṇāṃ", "กุละทุหิตฦๅณาม"); //กุละทุหิตṝณาม        
     }
- 
+ //apabhraṃśa อะปัภรัมศะ อปภฺรํศ อะปะภรัมศะ
+
+
     public function spacialCase($src, $asrt) {
         $thaiSanscriptAPI = new ThaiSanscriptAPI();
         $src = $thaiSanscriptAPI->transliterationTracking($src);
