@@ -81,7 +81,8 @@ class ThaiSanscriptRule {
                 $charList[$i] = $this->thaimapper->getAnusvara($charList[$i + 1]);
             }
         }
-        return str_replace(" ", "", $this->util->convertListTostring($charList));
+        //return str_replace(" ", "", $this->util->convertListTostring($charList));
+        return trim( $this->util->convertListTostring($charList));
     }
 
 //    public function convertThaiAAInFist($thaiChar) { //แปลงท้ายสุดแก้ปัญหา สระ เอา จะเหลือสระอา ดังนั้นต้องแปลงอีก

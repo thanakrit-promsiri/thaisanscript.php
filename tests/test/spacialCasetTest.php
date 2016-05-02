@@ -4,9 +4,11 @@ use ThaiSanskrit\ThaiSanscriptAPI;
 
 class spacialCase extends PHPUnit_Framework_TestCase {
 
+
     public function __construct() {
-        
+
     }
+
 
     public function testCase1() {
         $this->spacialCase("prātimōkṣasūtram", "ปราติโมกษะสูตรัม");
@@ -194,27 +196,34 @@ class spacialCase extends PHPUnit_Framework_TestCase {
     public function testCaseTest34() {
         //echo ord('');echo ord('') ;
 //        ASRT :ภะคะวานาหะ-เอวัม ' : '-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัมเ-วัมเ-วัมโ-อวัมโ-อวัมไ-วัมเ-อาวัม-ฤวัม']:ภะคะวานาหะ-เอวัม ' : '-อะวัม-อาวัม-อิวัม-อีวัม-อุวัม-อูวัม-ฤวัม-เวัม-เวัม-โอวัม-โอวัม-ไอวัม-เอาวัม-ฤวัม']
-        $this->spacialCase(" avama āvama ivama īvama uvama ūvama ṛvama evama ēvama ōvama ovama aivama auvama r̥vama", "อะวะมะอาวะมะอิวะมะอีวะมะอุวะมะอูวะมะฤวะมะเอวะมะเอวะมะโอวะมะโอวะมะไอวะมะเอาวะมะฤวะมะ"); //ภะคะวานาหะเ-วัม   
+        //$this->spacialCase(" avama āvama ivama īvama uvama ūvama ṛvama evama ēvama ōvama ovama aivama auvama r̥vama", "อะวะมะอาวะมะอิวะมะอีวะมะอุวะมะอูวะมะฤวะมะเอวะมะเอวะมะโอวะมะโอวะมะไอวะมะเอาวะมะฤวะมะ"); //ภะคะวานาหะเ-วัม   
+        $this->spacialCase(" avama āvama ivama īvama uvama ūvama ṛvama evama ēvama ōvama ovama aivama auvama r̥vama", "อะวะมะ อาวะมะ อิวะมะ อีวะมะ อุวะมะ อูวะมะ ฤวะมะ เอวะมะ เอวะมะ โอวะมะ โอวะมะ ไอวะมะ เอาวะมะ ฤวะมะ"); //ภะคะวานาหะเ-วัม   
     }
-    
+
     public function testCase35() {
         $this->spacialCase("nāvadhyānaprekṣiṇa", "นาวัธยานะเปรกษิณะ"); //นาวัธยานัเปรกษิณะ        
     }
-     public function testCase36() {
+
+    public function testCase36() {
         $this->spacialCase("upaśrotrasthāne", "อุปะโศรตรัสถาเน"); //นาวัธยานัเปรกษิณะ        
     }
-    
-     public function testCase37() {
+
+    public function testCase37() {
         $this->spacialCase("kuladuhitṝṇāṃ", "กุละทุหิตฤๅณาม"); //กุละทุหิตṝณาม        
     }
-     public function testCase38() {
+
+    public function testCase38() {
         $this->spacialCase("kuladuhitḷṇāṃ", "กุละทุหิตฦณาม"); //กุละทุหิตṝณาม        
     }
-     public function testCase39() {
+
+    public function testCase39() {
         $this->spacialCase("kuladuhitḹṇāṃ", "กุละทุหิตฦๅณาม"); //กุละทุหิตṝณาม        
     }
- //apabhraṃśa อะปัภรัมศะ อปภฺรํศ อะปะภรัมศะ
 
+    //apabhraṃśa อะปัภรัมศะ อปภฺรํศ อะปะภรัมศะ
+    public function testCase40() {
+        $this->spacialCase("lokāḥ samastāḥ sukhinobhavantu", "โลกาห์ สะมัสตาห์ สุขิโนภะวันตุ"); //กุละทุหิตṝณาม        
+    }
 
     public function spacialCase($src, $asrt) {
         $thaiSanscriptAPI = new ThaiSanscriptAPI();

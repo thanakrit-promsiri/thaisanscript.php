@@ -26,7 +26,8 @@ class ThaiVisargaConvert {
                 $charList = $this->thaivisarga_rule($charList, $i);
             }
         }
-        return str_replace(" ", "", $this->util->convertListTostring($charList));
+//        return str_replace(" ", "", $this->util->convertListTostring($charList));
+        return trim($this->util->convertListTostring($charList));
     }
 
     protected function a_before_rule($charList, $i) {

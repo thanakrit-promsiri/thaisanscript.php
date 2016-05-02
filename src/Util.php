@@ -125,7 +125,8 @@ class Util {
                 }
             }
         }
-        return str_replace(" ", "", $this->convertListTostring($charList));
+//        return str_replace(" ", "", $this->convertListTostring($charList));
+        return trim( $this->convertListTostring($charList));
     }
 
     public function convertThaiVowelInFist($thaiChar) {
